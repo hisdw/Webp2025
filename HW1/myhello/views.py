@@ -7,23 +7,10 @@ from rest_framework.decorators import api_view
 from django.core.serializers.json import DjangoJSONEncoder
 import json 
 import logging
-from .models import Post
+from .models import CourseTable
 
 logger=logging.getLogger('django')
 
-class HelloApiView(APIView):
-    def get(self, request):
-        my_name = request.GET.get('name' , None)
-        if my_name:
-            retValue = {}
-            retValue['data'] = "Hello" + my_name
-            return Response(retValue, status=status.HTTP_200_OK)
-        else:
-            return Response(
-                {"res": "parameter: name is None"},
-               status=status.HTTP_400_BAD_REQUEST
-            )
-        
 # Create your views here.
 from django.http import HttpResponse
 
@@ -31,23 +18,20 @@ def myIndex(request):
     my_name = request.GET.get('name' , "CGU")
     return HttpResponse("Hello" + my_name)
 @api_view(['GET'])
-def add_post(request):
-    title = request.POST.get('title')
-    content = request.POST.get('content')
+def addcourse_post(request):
     Department=request.GET.get('Department', '')
     CourseTitle=request.GET.get('CourseTitle', '')
     Instructor=request.GET.get('Instructor', '')
     #location=request.GET.get('location', '')
 
-    new_post=Post()
+    new_post=CourseTable()
     new_post.Department=Department
     new_post.CourseTitle=CourseTitle
     new_post.Instructor=Instructor
-    new_post.content=content
     new_post.save()
-    logger.debug(" ************** myhello_api: "+ title)
-    if title:
-        return Response({"data": title + "insert!"}, status=status.HTTP_200_ok)
+    logger.debug(" ************** myhello_api: "+ Department)
+    if Department:
+        return Response({"data": Department + "insert!"}, status=status.HTTP_200_OK)
     else:
         return Response(
             {"res":"parameter: name is None"},
@@ -55,8 +39,8 @@ def add_post(request):
         )
     
 @api_view(['GET'])
-def list_post(request):
-        posts = Post.objects.all().values()
+def courselist_post(request):
+        posts = CourseTable.objects.all().values()
         return JsonResponse(list(posts), safe=False)
         #return Respone({"data":
         #                json.dumps(

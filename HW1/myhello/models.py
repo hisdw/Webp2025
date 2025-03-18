@@ -4,9 +4,9 @@ from django.db import models
 
 from django.db import models
 
-class Post(models.Model):
-    Department=models.CharField(max_length=150, default="Unknown")
-    CourseTitle=models.CharField(max_length=150, default="Unknown")
-    Instructor=models.CharField(max_length=150, default="Unknown")
+class CourseTable(models.Model):
+    Department=models.CharField(max_length=150)
+    CourseTitle=models.CharField(max_length=150)
+    Instructor=models.CharField(max_length=150)
     #location=models.CharField(max_length=100)
     #created_at=models.DateTimeField(auto_now_add=True)
